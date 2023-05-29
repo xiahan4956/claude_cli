@@ -1,6 +1,6 @@
 # Introduce
 Use claude api in python CLI.
-[demo](demo.gif)
+![demo](demo.gif)
 
 
 # Quick Start
