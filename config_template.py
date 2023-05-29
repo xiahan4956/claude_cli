@@ -3,8 +3,8 @@ MODEL = "claude-v1-100k"
 
 
 '''
-MODEL = 'claude-v1' 则会使用Claude default模型进行生成。
-MODEL = 'claude-v1-100k' 10w字输入,其回复会较为通俗易懂。
-MODEL = 'claude-instant-v1'则会使用低延迟Claude模型,回复会较短。
+MODEL = 'claude-v1'      ---> use laude default
+MODEL = 'claude-v1-100k' ---> use 100k model
+MODEL = 'claude-instant-v1' ---> use low delay model,but the answer will be short
 '''
 
