@@ -4,7 +4,7 @@ import anthropic
 
 client = anthropic.Client(API_KEY)
 def get_msg(user_input:str,conversation_history:str):
-    prompt=f"{anthropic.HUMAN_PROMPT}{user_input}{anthropic.AI_PROMPT}{conversation_history}"
+    prompt=f"{anthropic.HUMAN_PROMPT}{conversation_history}------------{user_input}{anthropic.AI_PROMPT}"
     
     response = client.completion(
         prompt=prompt,
@@ -14,13 +14,12 @@ def get_msg(user_input:str,conversation_history:str):
     )
     print(response["completion"])
 
-    conversation_history = "\n\nthis is our chat history \n" + "user_input:" + user_input + "\n" +"AI answer:" + response["completion"] 
+    conversation_history = "\n\nthis is our chat history " + "{user_input:" + user_input + "\n" +"AI answer:" + response["completion"] + "}"
     
     return  conversation_history
 
 if __name__ == '__main__':
     conversation_history = ""
-    prompt = ''
     while True:
         user_input = input('Your message: ')
         conversation_history += get_msg(user_input,conversation_history)
