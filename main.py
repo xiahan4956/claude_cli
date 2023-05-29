@@ -1,27 +1,27 @@
 from config import *
-import json
+import anthropic
 
-def chat(prompt):
-    url = 'https://api.anthropic.com/v1/complete'
-    headers = {
-        'Content-Type': 'application/json',
-        'X-API-Key': API_KEY
-    }
-    data = {
-        'prompt': prompt,
-        'model': MODEL,
-        'max_tokens': 100,
-        'temperature': 0.8
-    }
 
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    response_data = response.json()
-    completion = response_data['completion']
-    print(completion)
+client = anthropic.Client(API_KEY)
+def get_msg(user_input:str,conversation_history:str):
+    prompt=f"{anthropic.HUMAN_PROMPT}{user_input}{anthropic.AI_PROMPT}{conversation_history}"
+    
+    response = client.completion(
+        prompt=prompt,
+        stop_sequences = [anthropic.HUMAN_PROMPT],
+        model=MODEL,
+        max_tokens_to_sample=10000,
+    )
+    print(response["completion"])
+
+    conversation_history = "\n\nthis is our chat history \n" + "user_input:" + user_input + "\n" +"AI answer:" + response["completion"] 
+    
+    return  conversation_history
 
 if __name__ == '__main__':
+    conversation_history = ""
     prompt = ''
     while True:
         user_input = input('Your message: ')
-        prompt += '\nHuman: ' + user_input 
-        chat(prompt)
+        conversation_history += get_msg(user_input,conversation_history)
+        
